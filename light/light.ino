@@ -9,14 +9,25 @@ hp_BH1750 BH1750;       //  create the sensor
 const char* ssid = "IIIIllllllIIIIllIII";
 const char* password = "julmsaladus";
 const char* serverURL = "http://192.168.150.176:5000/data";
+const int RELAY2_PIN = 26;
 
 void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  pinMode(RELAY2_PIN, OUTPUT);
 
   WiFi.begin(ssid, password);
   Serial.print("Connecting to Wi-Fi");
+
+  // Initialize relays to OFF state
+  digitalWrite(RELAY2_PIN, HIGH);  // For LOW level trigger
+
+  // If using HIGH level trigger, initialize with:
+  // digitalWrite(RELAY1_PIN, LOW);
+  // digitalWrite(RELAY2_PIN, LOW);
+  
+  Serial.println("Relay test program started");
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -39,7 +50,16 @@ void loop()
   //Light sensor data 
   BH1750.start();   //starts a measurement
   float lux=BH1750.getLux();  //  waits until a conversion finished
-  Serial.println(lux);      
+  Serial.println(lux);
+  if (lux >= 100.0 || lux <= 20.0) {
+    Serial.println("Relay 2 ON - Check multimeter for continuity");
+    digitalWrite(RELAY2_PIN, HIGH);  // For LOW level trigger
+    
+  }
+  if (lux  < 100.0 && lux > 20.0) {
+    Serial.println("Relay 2 OFF - Check multimeter for no continuity");
+    digitalWrite(RELAY2_PIN, LOW); // For LOW level trigger
+  }    
   
 
   // Wireless connection to Raspbi flask server
@@ -57,5 +77,5 @@ void loop()
     http.end();
   }
 
- delay(500);
+
 }

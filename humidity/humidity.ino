@@ -51,7 +51,7 @@ void setup() {
 
 void loop() {
   // Wait a few seconds between measurements.
-  delay(2000);
+  delay(500);
 
 
   

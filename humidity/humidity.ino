@@ -1,9 +1,12 @@
-// Example testing sketch for various DHT humidity/temperature sensors written by ladyada
+// Mustard on the beat ho MUSTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARD
 // REQUIRES the following Arduino libraries:
 // - DHT Sensor Library: https://github.com/adafruit/DHT-sensor-library
 // - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
 
 #include "DHT.h"
+#include "BluetoothSerial.h"
+
+BluetoothSerial SerialBT;
 
 #define DHTPIN D5    // Digital pin connected to the DHT sensor
 // Feather HUZZAH ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
@@ -30,7 +33,9 @@ DHT dht(DHTPIN, DHTTYPE);
 void setup() {
   Serial.begin(9600);
   Serial.println(F("DHTxx test!"));
-
+  SerialBT.begin("ESP32_DeviceAKVAARIUMMUSTAAAAAARD"); // Bluetooth name
+  delay(200);
+  Serial.println("Bluetooth Started");
   dht.begin();
 }
 
@@ -38,6 +43,8 @@ void loop() {
   // Wait a few seconds between measurements.
   delay(2000);
 
+
+  
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
@@ -56,6 +63,10 @@ void loop() {
   float hif = dht.computeHeatIndex(f, h);
   // Compute heat index in Celsius (isFahreheit = false)
   float hic = dht.computeHeatIndex(t, h, false);
+
+  //Bluetooth start
+  SerialBT.println("Hello from ESP32! Example, MUSTAAAAAAAAAAAAARD");
+  //Bluetooth end
 
   Serial.print(F("Humidity: "));
   Serial.print(h);

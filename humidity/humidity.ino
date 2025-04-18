@@ -4,9 +4,13 @@
 // - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
 
 #include "DHT.h"
-#include "BluetoothSerial.h"
+#include <Arduino.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
 
-BluetoothSerial SerialBT;
+const char* ssid = "IIIIllllllIIIIllIII";
+const char* password = "julmsaladus";
+const char* serverURL = "http://192.168.150.176:5000/data";
 
 #define DHTPIN D5    // Digital pin connected to the DHT sensor
 // Feather HUZZAH ESP8266 note: use pins 3, 4, 5, 12, 13 or 14 --
@@ -32,10 +36,16 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(9600);
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to Wi-Fi");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected to Wi-Fi!");
+  Serial.println(WiFi.localIP()); 
   Serial.println(F("DHTxx test!"));
-  SerialBT.begin("ESP32_DeviceAKVAARIUMMUSTAAAAAARD"); // Bluetooth name
-  delay(200);
-  Serial.println("Bluetooth Started");
   dht.begin();
 }
 
@@ -64,9 +74,20 @@ void loop() {
   // Compute heat index in Celsius (isFahreheit = false)
   float hic = dht.computeHeatIndex(t, h, false);
 
-  //Bluetooth start
-  SerialBT.println("Hello from ESP32! Example, MUSTAAAAAAAAAAAAARD");
-  //Bluetooth end
+  // Wireless connection to Raspbi flask server
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverURL);
+    http.addHeader("Content-Type", "application/json");
+
+    String json = "{\"Humidity\":" + String(h) + ",\"Temperature\":" + String(t) + ",\"Fahrenheit\":" + String(f) + "}";
+    int httpResponseCode = http.POST(json);
+
+    Serial.print("Response: ");
+    Serial.println(httpResponseCode);
+    //Serial.println(http.errorToString(httpResponseCode));
+    http.end();
+  }
 
   Serial.print(F("Humidity: "));
   Serial.print(h);

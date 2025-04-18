@@ -1,5 +1,5 @@
 <script>
-  import { valguseTaseWrite, mullaNiiskusWrite } from './stores.js';
+  import { valguseTaseWrite, mullaNiiskusWrite } from '../lib/stores/stores';
 
   export let windowFrameColor = "bg-amber-900"; // Tailwind color class for frame
   export let windowFrameWidth = "15";
@@ -47,9 +47,12 @@
               z-index: 1;
             "></div>
           </div>
-      
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="mt-6 z-20">
+  <button type="button" class="btn btn-lg preset-filled bg-amber-900 text-white">Large</button>
 </div>

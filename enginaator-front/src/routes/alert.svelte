@@ -4,7 +4,7 @@
     // Props
     export let show = false;           // Whether to show the alert
     export let message = "";           // Alert message
-    export let duration = 5000;        // Duration in ms (default 5s)
+    export let duration = 7000;        // Duration in ms (default 5s)
     export let position = "top-right"; // Position on screen
     export let onClose = () => {};     // Callback when alert closes
 

@@ -1,5 +1,5 @@
 <script>
-    import { ohuTemp, ohuNiiskus } from './stores.js';
+    import { ohuTemp, ohuNiiskus } from '../lib/stores/stores';
     // Example data - these would typically come from props or a store
     $: airTemperature = $ohuTemp;
     $: humidity = $ohuNiiskus;

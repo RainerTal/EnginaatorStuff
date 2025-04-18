@@ -4,7 +4,7 @@
     import DashboardOhkNiiskus from './dashboardOhkNiiskus.svelte';
     import DashboardValgusMuld from './dashboardValgusMuld.svelte';
     import Alert from './alert.svelte';
-    import { valguseTaseWrite, mullaNiiskusWrite } from './stores.js';
+    import { valguseTaseWrite, mullaNiiskusWrite } from '../lib/stores/stores';
     
 	let showAlert = $state(false);
     let message = $state(""); 

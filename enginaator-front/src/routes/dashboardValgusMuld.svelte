@@ -1,6 +1,6 @@
 <script>
     import { Progress } from '@skeletonlabs/skeleton-svelte';
-    import { valguseTaseWrite, mullaNiiskusWrite } from './stores.js';
+    import { valguseTaseWrite, mullaNiiskusWrite } from '../lib/stores/stores';
 
     // Example data - these would typically come from props or a store
     $: valgusTase = $valguseTaseWrite;

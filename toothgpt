@@ -1,0 +1,52 @@
+#include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <BLE2902.h>
+
+#define SERVICE_UUID        "12345678-1234-5678-1234-56789abcdef0"
+#define CHAR_UUID_RX        "12345678-1234-5678-1234-56789abcdef1" // Pi→ESP32
+#define CHAR_UUID_TX        "12345678-1234-5678-1234-56789abcdef2" // ESP32→Pi
+
+BLECharacteristic *pCharRx;
+BLECharacteristic *pCharTx;
+
+class MyCallbacks : public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *pChar) override {
+    std::string data = pChar->getValue();
+    Serial.print("Received from Pi: ");
+    Serial.println(data.c_str());
+    // echo back
+    pCharTx->setValue(("Ack: " + data).c_str());
+    pCharTx->notify();
+  }
+};
+
+void setup() {
+  Serial.begin(115200);
+  BLEDevice::init("ESP32_BLE");
+  BLEServer *pServer = BLEDevice::createServer();
+
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+  pCharRx = pService->createCharacteristic(
+                CHAR_UUID_RX, BLECharacteristic::PROPERTY_WRITE);
+  pCharRx->setCallbacks(new MyCallbacks());
+
+  pCharTx = pService->createCharacteristic(
+                CHAR_UUID_TX,
+                BLECharacteristic::PROPERTY_NOTIFY
+               );
+  pCharTx->addDescriptor(new BLE2902());
+
+  pService->start();
+  BLEAdvertising *pAdv = BLEDevice::getAdvertising();
+  pAdv->addServiceUUID(SERVICE_UUID);
+  pAdv->start();
+  Serial.println("BLE service started, waiting for central...");
+}
+
+void loop() {
+  delay(1000);
+  // You can also push sensor data:
+  // pCharTx->setValue("Sensor=42");
+  // pCharTx->notify();
+}

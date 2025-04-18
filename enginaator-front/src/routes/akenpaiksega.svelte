@@ -52,7 +52,3 @@
     </div>
   </div>
 </div>
-
-<div class="mt-6 z-20">
-  <button type="button" class="btn btn-lg preset-filled bg-amber-900 text-white">Large</button>
-</div>

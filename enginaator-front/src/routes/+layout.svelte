@@ -5,6 +5,7 @@
     import DashboardValgusMuld from './dashboardValgusMuld.svelte';
     import Alert from './alert.svelte';
     import { valguseTaseWrite, mullaNiiskusWrite } from '../lib/stores/stores';
+	import Nupp from './nupp.svelte';
     
 	let showAlert = $state(false);
     let message = $state(""); 
@@ -67,6 +68,10 @@
             <DashboardValgusMuld />
         </div>
     </div>
+
+	<div class="fixed bottom-7 left-1/2 transform -translate-x-1/2 z-20">
+		<Nupp />
+	</div>
     </main>
 </div>
 

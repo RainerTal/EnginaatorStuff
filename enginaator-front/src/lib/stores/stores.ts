@@ -14,7 +14,7 @@ let pollInterval: number | null = null;
 
 export async function fetchLastLightValue() {
   try {
-    const response = await fetch('http://localhost:5001/api/data');
+    const response = await fetch('http://localhost:5000/api/data');
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

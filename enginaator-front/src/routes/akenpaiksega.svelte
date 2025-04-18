@@ -22,7 +22,7 @@
 </script>
 
 <!-- Wall background -->
-<div class={`fixed inset-0 bg-[url('redbrick.jpg')] flex items-center justify-center`} style="background-size: 1000px 700px;">
+<div class={`fixed inset-0 bg-[url('redbrick1.jpg')] flex items-center justify-center`} style="background-size: 1000px 700px;">
   <!-- Window frame -->
   <div class={`w-[40%] h-[80%] ${windowFrameColor} rounded-lg shadow-2xl p-[15px] grid grid-cols-2 grid-rows-2 gap-[15px]`} style="border-width: {windowFrameWidth}px;">
     <!-- Window content -->
